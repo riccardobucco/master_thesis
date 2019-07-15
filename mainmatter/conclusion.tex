@@ -1,0 +1,58 @@
+\chapter{Conclusion}
+    In this chapter, I briefly synthesize what has been previously discussed, pulling together all of the parts of my work and discussing their implications. Moreover, I identify and acknowledge my study's limitations, explaining how they impact my work. Finally, I propose a direction for future studies.
+    \section{Summary of contributions}
+        The problem of classifying Wikipedia pages in a language-independent way turned out to be very hard to solve, especially because most Wikipedia editions lack a large active community which supervises articles quality. Moreover, things are complicated by the constraint that a semantic concept should be always mapped to the same topic, no matter what is the language used to describe it: the nature of most Wikipedia editions is fractured and knowledge can be organized very differently across languages.
+        
+        Instead of trying to build a high performance classifier able to solve the task, I have focused on studying and analyzing the problem as a whole. Moreover, I have developed a general and powerful framework that can be used in other works to face the various challenges posed by this problem. The framework indicates the overall program's flow of control --- thus helping to save time --- and is easily extensible with specialized components. Finally, I have shown that promising results can be achieved simply by using the proposed framework and a basic graph convolutional network.
+        
+        \paragraph{Wikipedia multilingual graph}
+            I studied and analyzed the challenges one has to face when dealing with Wikipedia multilingual graphs. Specifically, merging data coming from different Wikipedia editions into a single knowledge graph can be hard because of missing, inconsistent or wrong information.
+            
+            I designed a module that can be used for selecting, downloading and filtering Wikipedia data. It is fully optimized to work in low-memory circumstances. Moreover, I designed some classes and functions for building Wikipedia multilingual graphs with data coming from any Wikipedia edition. These classes can be easily customized by users to fit their specific needs.
+            
+            I proposed, implemented and evaluated a randomized algorithm for merging data coming from different Wikipedia editions. The idea of this algorithm is based on the concept of contraction of an edge --- i.e., an operation which removes an edge from a graph while simultaneously merging the two vertices it previously joined.
+        \paragraph{Learning framework}
+            I formulated the problem of classifying Wikipedia pages in a language-independent way from a machine learning perspective, framing it as a graph-based semi-supervised classification task.
+            
+            I defined a format for loading arbitrary numerical vertex features into the Wikipedia multilingual graph, thus allowing to add data to the domain structure. I also implemented a method for computing embeddings of page titles or summaries, thus providing a mapping from a \textquote{concept space} to a 300-dimensional vector space.
+            
+            I defined a format for loading vertex labels (both classes and probability distributions). I also implemented some ready-to-use functions: one allows to get a list of the most informative vertices of the multilingual graph; others can load labels provided by either Negapedia or the labelling platform.
+            
+            I built a framework for learning vertex embeddings. It exploits active learning --- i.e., it is allowed to decide which vertices should be labeled, thus minimizing the cost of obtaining data and achieving a greater performance with less data. I described three criteria that can be used to choose the vertices to label: they measures vertex representativeness and model uncertainty. I also presented a way to randomly draw time-sensitive parameters that can be used to combine these three criteria, thus giving different priority to representativeness and uncertainty as the model training goes on.
+            
+            Inspired by how humans and animals seem to learn better, I implemented some curriculum learning functions: users can partition the vertices of the Wikipedia multilingual graph into different difficulty/desirability levels, thus indicating which vertices the model should focus on first. I also implemented some ready-to-use functions for dividing nodes by centrality or page visits.
+            
+            In general, each aspect of the learning algorithm can be fully customized and used with any graph-based machine learning model. Despite this flexibility, users can try out the framework using the predefined ready-to-use functions and classes that I implemented.
+        \paragraph{Labelling platform}
+            I implemented a basic labelling platform with a graphical interface that improves labelling productivity, and a REST-based API that can be integrated with any application. It can be used to support the learning algorithm that classifies Wikipedia pages and it is optimized for an active learning setting. The labelling platform also includes some gamification elements which make the labelling task more fun.
+            
+            I have used the labelling platform to collect many labels for pages belonging to the English, Italian, German, Dutch and Polish editions of Wikipedia.
+        \paragraph{Experiments with geometric deep learning}
+            I performed some experiments with the learning framework, demonstrating that promising results can be achieved. Specifically, I built a small graph convolutional network, I used it to label categories belonging to four different Wikipedia editions and I showed that decent accuracy can be reached even with no data on the domain structure --- i.e., using only graph edges --- and using an inherently bad training set.
+            
+            I performed small experiments with curriculum learning and active learning, showing that both are actually useful in this setting. Specifically, experiments have shown that once a label has been manually fixed, information automatically propagates through the multilingual graph.
+            
+            I validated the labels that I obtained by classifying some Wikipedia articles with a simple average of the probability distributions.
+    \section{Limitations of the work}
+        My work has two main limitations. Both are related to the quality of experiments performed on the Wikipedia multilingual graph:
+        \begin{itemize}
+            \item The number of language editions I have experimented with is very low (4 or 5, depending on the specific experiment). In a multilingual setting, it would have been interesting to put together data coming from dozens of language editions, to run the learning framework on the entire graph and to check if results given by the algorithm are still valid. Unfortunately, graph convolutional networks, though very powerful, are computationally expensive and I did not have enough resources to train them. Therefore, I could only use few languages in my experiments.
+            
+            Moreover, I did not test the algorithm on any low-quality Wikipedia edition. Going multilingual is useful especially because information coming from highly-supervised language editions can propagate to minor wikis, thus boosting the learning algorithm. However, I could only check results in languages I am somehow comfortable with. Also, it was incredibly hard to find people willing to volunteer their time to my study.
+            \item The second main limitation is related to dynamic graphs. More specifically, my work does not investigate how a model trained on data coming from a specific dump behaves when applied to data coming from a subsequent dump. What does happen when a few nodes are added to or deleted from the graph? Does the model still work or does it have to be trained again on new data?
+            
+            As I discussed with \citeauthor{KipfPrivate} in \cite{KipfPrivate}, graph convolutional networks presumably do not work in this context. Specifically, one can make predictions on new nodes if their feature vectors come from a similar underlying distribution. Instead, if one uses no features (as in my experiments), the prediction would mostly be just random. The problem with using features is that they increase the training time by a big factor.
+        \end{itemize}
+    \section{Directions for future work}
+        This work can be improved from a theoretical and practical point of view.
+        \paragraph{Incremental learning}
+            The learning framework that I developed does not inherently support incremental learning --- i.e., a method in which input data is continuously used to extend the existing knowledge and to further train the model. It could be really useful, though. Indeed, one could gain knowledge on some language editions of Wikipedia, and then reuse it to label vertices of a graph formed by data coming from completely different languages.
+            
+            Ideally, the learning framework should include some mechanism that allows the automatic reuse of previous knowledge, without having to force the user to implement it from scratch.
+        \paragraph{Merging strategies}
+            The learning framework includes a strategy that can be used for merging data coming from different Wikipedia editions. It is based on a randomized algorithm which draws edges from a set where each element is equally probable. Though the merging strategy is very important in this context, my experiments have shown that using only inter-language links might not be enough to build a high-quality multilingual graph: boundaries of concepts vary across language-defined communities and different wikis do not share the same categorization system. Therefore, one could try to investigate different merging strategies: they can be extremely useful for an effective propagation of information through the multilingual graph. How can a merging strategy detect possible links? How can it automatically cross-reference pages belonging to different language editions?
+
+        \paragraph{Experiments on big data}
+            One can follow a more experimental approach by trying to deal with very large datasets. Indeed, it would be interesting to train models on huge multilingual graphs, formed by data coming from hundreds of Wikipedia editions. What are the characteristics of such graphs? Is information able to effectively propagate?
+            
+            Most importantly, since I achieved acceptable results by using only structural information, I believe that using node features can substantially boost performance, no matter what is the model. Defining features that can be used in every language is a difficult task, though: one could use the functions for multilingual embeddings that the framework provides, or try to come up with brand new features. Particular attention has to be paid to computational complexity and memory usage.

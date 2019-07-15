@@ -1,0 +1,76 @@
+\chapter{Introduction}
+    Wikipedia\footnote{\url{http://www.wikipedia.org/}.} is an online encyclopedia that has become one of the most important resources on the Web. Its constantly evolving interlinked textual information is an invaluable resource for a growing community of researchers and developers: it is used for many major natural language processing tasks, knowledge management, data mining, etc.
+    
+    In this thesis, I analyze the problem of classifying Wikipedia pages in a language-independent way and design a graph-based framework to solve it. Moreover, I perform some experiments with the proposed framework and geometric deep learning techniques, building convolutional neural networks that can learn how to classify each page of the Wikipedia graph.
+    \section{Problem statement}
+        Wikipedia has been widely used to improve performance on tasks related to many research areas. The reverse --- i.e., using knowledge from different fields to boost Wikipedia --- has been studied less so far.
+        
+        An important challenge regards the characterization of Wikipedia content: what is the distribution of topics? Despite the fact that each Wikipedia page can be manually assigned to multiple categories, the Wikipedia categorization system is of little benefit. Indeed, Wikipedia categories are organized into a loose ontology which is noisy, ill-formed and difficult to make sense of: they do not form a hierarchical systematic taxonomy. This is due to the fact that there is no formal imposition of which higher-level categories a child category can belong to; thus, the category network is neither a tree nor a directed acyclic graph, permitting paradoxes such as a category being its own \textquote{grandparent} \cite{Kittur}.
+        
+        Moreover, although Wikipedia has thousands of categories, it may be very useful to infer the general topic of a page. For example, this would allow studies on Wikipedia coverage (one could understand what Wikipedia contains or what is still lacking), on contributors habits and knowledge (users who have contributed a lot in a certain field could be asked to supervise newly created pages), etc.
+        
+        The problem becomes even harder if one tries to infer topics in a language-independent way. There are a number of studies which focus on classifying pages belonging to a single Wikipedia edition (the English one, most of the times), but, to the best of my knowledge, none of them have focused on the more difficult problem given by general multilingualism.
+        
+        Working with multiple languages arises many problems. How is it possible to classify a page without relying on any language-specific tool? Most importantly, a semantic concept should be always mapped to the same topic, no matter what is the language used to describe it. It is not easy to propagate information from one Wikipedia edition to another, though: the nature of most Wikipedia editions is fractured and knowledge can be very diverse across languages.
+        
+        More formally, Wikipedia can be thought of as a semantic knowledge graph which links articles and categories, possibly belonging to different language editions. Moreover, topics of Wikipedia nodes are generally not available --- or they are available only for a small subset of nodes. Therefore, the problem of classifying Wikipedia pages can be seen from a machine learning perspective: it can be framed as a graph-based semi-supervised classification problem. In other words, the goal is to map each node into a low-dimensional space, while preserving most of the network information.
+        
+        Although a solution to this problem can have a huge impact on Wikipedia and lead to a better understanding of multilingual classification, the work done in this thesis is mainly motivated by a practical goal: to build a consistent categorization system for \emph{Negapedia}\footnote{\url{http://www.negapedia.org/}.}, a website that measures the contrasts hidden behind every Wikipedia page. Indeed, Negapedia divides Wikipedia articles into eleven macro categories in order to make it easier for the user to navigate the negative side of various aspects of our society. For the moment, only English and Italian editions are fully working (though they are not completely coherent and consistent between them), while minor Wikipedia language editions still lack support.
+    \section{Solution overview}\label{solution_overview}
+        The problem of classifying Wikipedia pages in a language-independent way is very hard to solve, especially because most Wikipedia editions still lack support and do not have a large active community which supervises articles creation. Moreover, setting a goal that is too ambitious could hurt productivity, thus fragmenting the results. Therefore, instead of trying to build a classifier achieving a great accuracy, I have focused on studying the problem as a whole --- analyzing and addressing each cause --- and on developing a general and powerful \emph{framework} that can be used in other works to reach good results.
+        
+        The framework proposed in this thesis draws inspiration both from the field of graph-based semi-supervised learning and from very recent cutting edge studies on convolutional neural networks that operate on non-Euclidean domains. In order to use the framework, users have to build a multilingual graph with data from Wikipedia language editions to be classified. Then, they make use of an active learning algorithm based on curricula to learn node embeddings.
+        
+        While the framework indicates the overall program's flow of control, thus helping to save time, it is also easily extensible by allowing developers to add specialized code providing specific functionality. Indeed, the framework is very flexible and lets the user define, for example, how to merge two different Wikipedia graphs into a single one, what query strategy the active learner is based on, how many curricula should be used and what they are composed of, etc.
+        
+        Since performance of a semi-supervise machine learning algorithm heavily relies on collecting high quality and sufficient labeled data, this thesis also describes a relatively basic \emph{labelling platform} with a graphical interface that improves labelling productivity. This platform also provides a REST-based API that can be integrated with any application (included the framework).
+        
+        The framework and all the related products have been extensively used and tested in several different settings. Specifically, I have tried to use them to characterize content of pages belonging to some of the main editions of Wikipedia --- i.e., English, Italian, German, Dutch and Polish. --- achieving promising results.
+    \section{Related work}
+        Wikipedia is a rich and invaluable source of information. Its central place on the Web makes it a particularly interesting object of study for researchers from a wide range of disciplines, including but not limited to knowledge organization, network theory and social behavior. Surprisingly, there exist only few studies that focus on multilingual classification of Wikipedia pages, and none of them have achieved great results.
+        
+        In \citeyear{Kittur}, \citeauthor{Kittur} introduced a mapping technique that takes advantage of socially-annotated hierarchical categories \cite{Kittur}. The proposed approach is very simple:
+        \begin{enumerate}
+            \item They compute a topic distribution for each category by using a simple shortest-path metric to measure distance between nodes and top-level categories (path-based semantic relatedness).
+            \item They take all the categories that have been assigned to an article and calculate an aggregate topic distribution.
+        \end{enumerate}
+        
+        \citeauthor{Kittur} used the results to infer the distribution of topics in Wikipedia and how they have changed over time. In particular, the authors have demonstrated and empirically validated how useful hierarchy information can be derived from noisy, socially annotated category data.
+        
+        Though the approach proposed in \cite{Kittur} is very simple, it does not work very well in practice:
+        \begin{itemize}
+            \item The linear relationship between human-generated and algorithm-generated article topic distribution is not strong.
+            \item The same semantic concept may be mapped to different topics. Indeed, the category structure is different in each Wikipedia edition.
+            \item Sometimes, the category network comprises long chains of sub-categories. Such categories are clearly at a disadvantage when using a shortest-path metric.
+        \end{itemize}
+        
+        The semantic relatedness between articles in different languages has been studied by \citeauthor{Bao}: in \citeyear{Bao}, they presented \emph{Omnipedia}, a system that allows Wikipedia readers to gain insight from up to 25 language editions of Wikipedia simultaneously \cite{Bao}. To achieve this goal, Omnipedia extracts the topics discussed in each language edition's coverage of a given concept and groups Wikipedia articles in different languages into multilingual articles. The algorithm behind the system makes use of Wikipedia's inter-language links.
+        
+        \citeauthor{Bao} pointed out that there are many ambiguities in the graph created with inter-language links: they occur when multiple articles in the same language edition are connected via articles in other language editions, meaning that a corresponding multilingual article would have more than one article per language. In \cite{Bao}, the problem is solved by using a voting scheme in which language editions try to find an agreement on each inter-language link. Specifically, \citeauthor{Bao} introduced two threshold values:
+        \begin{itemize}
+            \item One limits the number of edges from a given language that can point to the same article in another language.
+            \item The other is used to require a certain percentage of language editions to agree on an edge before it could remain.
+        \end{itemize}
+        
+        Though the use of threshold values is fairly straightforward, it is not easy to find parameters that fit every possible situation. Indeed, it is not easy to explore parameter space in this setting, especially because there are many different Wikipedia language editions and results have to be validated by hand.
+        
+        In \cite{Schonhofen}, \citeauthor{Schonhofen} showed that there is a strong relationship between article titles and categories which pages belong to. Though the approach is very simple, it demonstrated that decent results can be achieved even without exploiting the full potential of Wikipedia. The author emphasized that future research should focus on information contained in links between articles and on the hierarchical structure of categories in order to reach great results.
+        
+        A contribution to the problem was given also by \citeauthor{Bonetti}: in his thesis, he described a method that models the process of assigning Wikipedia articles to topics as an absorbing Markov chain \cite{Bonetti}. Specifically, the algorithm works as follows:
+        \begin{enumerate}
+            \item A large graph is built using both Wikipedia categories and articles.
+            \item Some topics are chosen among the categories (the approach requires topics to be vertices of the category structure).
+            \item Nodes that represent categories or articles are modeled as transient states, and nodes that represent topics are modeled as absorbing states.
+            \item A probability is assigned to each edge of the graph using experimental values.
+        \end{enumerate}
+        
+        This algorithm has achieved good results and is currently used by Negapedia categorization system. However, it suffers the same problem as the method proposed in \cite{Kittur}: the same semantic concept may be mapped to different topics when described in different languages. Moreover, such approach needs a manual tuning which is specific to each Wikipedia language edition: this cannot be done without the help of a person who speaks the desired language, thus noticeably limiting the productivity.
+    \section{Outline}
+        The rest of this thesis is organized in three parts:
+        \begin{enumerate}
+            \item Part \ref{background} includes a review of the area being researched, current information surrounding the issue, previous studies on the issue, and relevant history on the issue.
+            \item Part \ref{methods_products} describes the specific research methods I have used in my work and the main products I have developed to solve the problem being addressed.
+            \item Part \ref{analysis_experimental_results} discusses and interprets the experimental results that I have obtained using the framework I have developed.
+        \end{enumerate}
+        
+        Specifically: chapter \ref{wikipedia_chapter} describes Wikipedia's structure and organization; chapter \ref{negapedia} introduces what is Negapedia and which are the algorithms behind it; chapter \ref{ml_chapter} gives a brief overview of machine learning, describing the main issues one has to face in this field; chapter \ref{ann_chapter} focuses on artificial neural networks, a specific class of learning methods; chapter \ref{ml_graphs_chapter} describes the basics of geometric deep learning, a new emerging field in which neural networks are applied to graphs; chapter \ref{wikipedia_multilingual_graph} starts presenting the framework by showing how Wikipedia multilingual graphs can be built; chapter \ref{learning_framework} describes the learning framework and how it can be used to learn how to classify Wikipedia articles; chapter \ref{labelling_platform} gives an overview of the labelling platform used to help users to collect labeled data; chapter \ref{analysis_collected_data} presents and analyzes data that have been collected through the use of the labelling platform; finally, chapter \ref{experiments_chapter} discusses the experiments that have been performed using the learning framework.

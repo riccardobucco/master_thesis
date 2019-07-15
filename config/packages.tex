@@ -1,0 +1,202 @@
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{bookmark,hyperref}
+\usepackage{csquotes}
+\usepackage[style=ieee, backend=biber]{biblatex}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{pgf-pie}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{tabulary}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{algorithm,algorithmicx,algpseudocode}
+\usepackage{makecell}
+\usepackage[some]{background}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+
+\def\monospace#1{\texttt{#1}}
+
+\usepackage{lmodern}
+\newcommand*{\grassetto}{\ttfamily\fontseries{b}\selectfont}
+\newcommand*{\normale}{\ttfamily\fontseries{l}\selectfont}
+
+\usepackage{enumitem}
+\usepackage{framed}
+\usepackage{changepage}
+
+\newenvironment{functiondoc}[3]
+{
+    \begin{framed}
+    \noindent\normale{#1.}\grassetto{#2}\normale{(\emph{#3})}
+    \normalfont
+    \begingroup
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{0.6em}
+    \begin{adjustwidth}{2em}{}
+}
+{
+    \end{adjustwidth}
+    \endgroup
+    \end{framed}
+}
+
+\newenvironment{independentfunctiondoc}[2]
+{
+    \begin{framed}
+    \noindent\grassetto{#1}\normale{(\emph{#2})}
+    \normalfont
+    \begingroup
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{0.6em}
+    \begin{adjustwidth}{2em}{}
+}
+{
+    \end{adjustwidth}
+    \endgroup
+    \end{framed}
+}
+
+\newenvironment{functiondescription}
+{
+    \normalfont
+    \textbf{Description}\\
+    \begingroup
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{0em}
+}
+{
+    \endgroup
+}
+
+\newenvironment{functionparameters}
+{
+    \normalfont
+    \textbf{Parameters}
+    \begingroup
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{0em}
+    \renewcommand{\descriptionlabel}[1]{%
+        \hspace\labelsep \normale{\emph{##1}} \normalfont:%
+    }
+    \begin{description}[noitemsep, nosep]
+}
+{
+    \end{description}
+    \endgroup
+}
+
+\newenvironment{parameters}
+{
+    \begingroup
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{0em}
+    \renewcommand{\descriptionlabel}[1]{%
+        \hspace\labelsep \normale{\emph{##1}} \normalfont:%
+    }
+    \begin{description}[noitemsep, nosep]
+}
+{
+    \end{description}
+    \endgroup
+}
+
+\newcommand{\emptyfunctionparameters}{
+    \normalfont
+    \textbf{Parameters}
+    \begingroup
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{0em}
+    
+    None
+    \endgroup
+}
+
+\newenvironment{functionoutput}
+{
+    \normalfont
+    \textbf{Output}
+    \begingroup
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{0em}
+    \par
+}
+{
+    \endgroup
+}
+
+\definecolor{lightgray}{gray}{0.9}
+\lstnewenvironment{functionexample}
+{
+    \normalfont
+    \textbf{Example}
+    \begingroup
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{0em}
+    \lstset{aboveskip=0pt, belowskip=0pt, language=python, basicstyle=\small\ttfamily\fontseries{l}\selectfont}
+    \mdframed[backgroundcolor=lightgray, linewidth=0pt, skipabove=2pt, innerleftmargin=5pt, innerrightmargin=5pt, innertopmargin=5pt, innerbottommargin=5pt, splittopskip=5pt]
+}
+{
+    \endmdframed
+    \endgroup
+}
+
+\lstnewenvironment{example}
+{
+    \normalfont
+    \begingroup
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{0em}
+    \lstset{aboveskip=0pt, belowskip=0pt, language=python, basicstyle=\small\ttfamily\fontseries{l}\selectfont}
+    \mdframed[backgroundcolor=lightgray, linewidth=0pt, skipabove=2pt, innerleftmargin=5pt, innerrightmargin=5pt, innertopmargin=5pt, innerbottommargin=5pt, splittopskip=5pt]
+}
+{
+    \endmdframed
+    \endgroup
+}
+
+\newcommand{\inlinecode}[1]{\ttfamily\fontseries{l}\selectfont\colorbox{lightgray}{\lstinline{#1}}\normalfont}
+
+\newenvironment{classdoc}[2]
+{
+    \begin{framed}
+    \noindent\normalfont\textbf{Class} \grassetto{#1}\\
+    \normalfont
+    \begingroup
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{0.6em}
+    #2
+    
+    \textbf{Methods}
+    \setlist[itemize]{leftmargin=1em}
+    \begin{itemize}[itemsep=0.3em, topsep=0pt]
+    % \begin{adjustwidth}{2em}{}
+}
+{
+    \end{itemize}
+    % \end{adjustwidth}
+    \endgroup
+    \end{framed}
+}
+
+\newenvironment{classmethod}[2]
+{
+    \grassetto{#1}\normale{(\emph{#2})}
+    \normalfont
+    \begingroup
+    \setlength{\parindent}{0em}
+    \setlength{\parskip}{0.6em}
+    % \begin{adjustwidth}{2em}{}
+}
+{
+    \endgroup
+    % \end{adjustwidth}
+}

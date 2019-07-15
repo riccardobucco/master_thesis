@@ -1,0 +1,35 @@
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            no marks,
+            xlabel=Year, ylabel=Average monthly editors count,
+            xtick distance=2,
+            xticklabel style={rotate=60},
+            /pgf/number format/1000 sep={},
+            x label style={
+                at={(axis description cs:0.5,-0.2)},
+                anchor=north
+            },
+            yticklabel = {
+                \pgfmathparse{\tick}
+                \pgfmathprintnumber{\pgfmathresult}\,K
+            },
+            enlargelimits=false
+        ]
+            \addplot table [
+                x=year,
+                y=user
+            ]{data/avg_monthly_editors_count.dat};
+            \addlegendentry{User}
+            
+            \addplot table [
+                x=year,
+                y=anonymous
+            ]{data/avg_monthly_editors_count.dat};
+            \addlegendentry{Anonymous}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Monthly count (averaged over the full year) of editors with one or more edits --- including on redirect pages --- on the English Wikipedia from its creation in 2001 up to 2019. Results are split by editor type.}
+    \label{avg_monthly_editors_count}
+\end{figure}

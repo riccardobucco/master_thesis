@@ -1,0 +1,23 @@
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            xbar,
+            xmin=0,
+            xlabel={Number of articles},
+            symbolic y coords={English,Cebuano,Swedish,German,French,Dutch,Russian,Italian,Spanish,Polish},
+            ytick=data,
+            xticklabel = {
+                \pgfmathparse{\tick}
+                \pgfmathprintnumber{\pgfmathresult}\,M
+            }
+        ]
+            \addplot table [
+                x=count,
+                y=lang
+            ]{data/lang_editions_distribution.dat};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Number of articles in main language editions (as of May 2019).}
+    \label{languages_distribution}
+\end{figure}

@@ -1,0 +1,208 @@
+\chapter{Wikipedia}\label{wikipedia_chapter}
+    Wikipedia is a free multilingual online encyclopedia launched in 2001. It is structured as an interconnected network of articles and it is written collaboratively by volunteers: anyone can edit an existing article or create a new one, and editors do not need to have any formal training.
+    \section{History}
+        Wikipedia was launched on January 15, 2001 by Jimmy Wales and Larry Sanger. The project gained many contributors from \emph{Nupedia}\footnote{A web-based encyclopedia with content controlled by an extensive peer-review approach.} \cite[317]{OpenSources} and web search engine indexing \cite[324]{OpenSources}.
+        
+        Thanks to the increasing number of people involved in the project, Wikipedia grew rapidly, with the article count reaching 20,000 by the end of 2002\footnote{\url{http://stats.wikimedia.org}.}. Moreover, early in Wikipedia's development, many editions in other languages were set up besides the English one.
+        
+        In 2003 Wales and Sanger thought of a charity model to fund the project: they founded the \emph{Wikimedia Foundation}, whose mission is \textquote{to empower and engage people around the world to collect and develop educational content under a free license or in the public domain, and to disseminate it effectively and globally}\footnote{\url{http://wikimediafoundation.org/about/mission/}.}. This nonprofit has protected the policies to address the needs of the editorial community, and it has built new features and tools to make it easy to read, edit and share from Wikipedia.
+        
+        With the support of the Wikimedia Foundation, content has grown organically for years. For example, the English Wikipedia grew exponentially until around 2007 --- with a peak of 50,000 new articles created per month --- though this is no longer the case (see figure \ref{pages_count}). Today, Wikipedia is the largest and most popular encyclopedia on the Web.
+
+        \input{diagrams/pages_count.tex}
+    \section{Community}
+        Wikipedia started almost entirely open, allowing a page to be created or modified by any volunteer, even those who did not have a registered account. Later on, some language editions --- including the English one --- have introduced some editing restrictions (e.g. anonymous users can't create new pages, some pages have been protected so that only administrators are able to make changes, etc.) in order to fight vandalism and to protect the accuracy of their information.
+        
+        The number of contributors has grown exponentially, especially in early Wikipedia's development. However, as figure \ref{avg_monthly_editors_count} shows, the number of active users\footnote{To be considered active, a user must take at least one edit in a given month.} has become stable over the past few years. Figure \ref{avg_monthly_editors_count} also shows that the peak of new pages created per month (see the derivative of the graph in figure \ref{pages_count}) is strictly related to the number of active users.
+        
+        \input{diagrams/avg_monthly_editors_count.tex}
+    \section{Language editions}
+        There are currently 304 language editions of Wikipedia (as of May 2019)\footnote{\url{https://meta.wikimedia.org/wiki/List_of_Wikipedias}.}.
+        
+        \input{diagrams/languages_distribution.tex}
+        
+        Figure \ref{languages_distribution} shows a graph of the 10 largest language editions of Wikipedia. It should be noted, though, that --- as of January 2019 --- \emph{Lsjbot}\footnote{A bot developed by Sverker Johansson for the Swedish Wikipedia.} is responsible for the creation of 9.5 million articles: 3 million for the Swedish Wikipedia and 5.3 million for the Cebuano Wikipedia\footnote{\url{https://stats.wikimedia.org/EN/BotActivityMatrixCreates.htm}.}. 
+        
+        Each language edition is mostly independent of other editions. However, all the Wikimedia Foundation's projects are supervised, coordinated and documented through the Meta-Wiki website\footnote{\url{http://meta.wikimedia.org/}.}. For example, it maintains a guideline for each Wikipedia so that they will contain a minimum amount of basic pages\footnote{\url{http://meta.wikimedia.org/wiki/List_of_articles_every_Wikipedia_should_have}.}: the list is intended as a starting point for growth.
+        
+        Though some articles are available in more than one language, only a small portion of them are translated in most Wikipedia editions: many pages are strongly related to a specific language, or there is a lack of information.
+    \section{Reliability and quality of writing}
+        Wikipedia is a highly controversial resource and many critics have raised concerns about the site's reliability. If anyone can edit entries, how do users know if they can rely on Wikipedia? Can volunteers match paid professionals for accuracy? Current research is examining the ability of Wikipedia to maintain high-quality and factually-accurate articles.
+        
+        Wikipedia trusts the same community to self-regulate and become more proficient at quality control. As a consequence of this open structure of the project, Wikipedia \textquote{makes no guarantee of validity}\footnote{\url{https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer}.} of its content --- which may have not been reviewed by people with expertise --- since no one is ultimately responsible for any claims appearing in it. However, this doesn't mean that information contained in Wikipedia is always inaccurate or not valuable. In fact, there have been a number of studies that looked at the quality of Wikipedia from different point of views (completeness, credibility, objectivity, readability, relevance, style, timeliness --- as \citeauthor{LewoniewskiMeasures} describes in \cite{LewoniewskiMeasures})\footnote{The list is not exhaustive and only include some examples of the studies related to Wikipedia articles quality that have been carried out so far.}:
+        \begin{itemize}
+            \item \cite{Blumenstock} concluded that long articles in Wikipedia often have a high quality.
+            \item \cite{LewoniewskiQuality} showed that high-quality articles are likely to have many images, sections and references.
+            \item \cite{Emigh} compared the degree of formality of the language used by Wikipedia and the \emph{Columbia Encyclopedia}: the study concluded that there were no differences in terms of formality of the language and that Wikipedia entries are stylistically similar to traditional, printed sources such as the expert-created Columbia Encyclopedia\footnote{The study limited itself to an analysis of the style and did not attempt to evaluate the accuracy of the content of the entries.}.
+            \item The quality of the writing style of Wikipedia articles has also been estimated in \cite{Xu} (nouns and verbs are more likely to be used than adjectives in high-quality articles).
+            \item In \cite{Giles}, many errors were revealed in both Wikipedia and \emph{Encyclop{\ae}dia Britannica}, but the level of accuracy in scientific Wikipedia articles was found to be the same as that of Britannica entries (which might seem surprising, considering how Wikipedia articles are written).
+        \end{itemize}
+        There exist also some tools to evaluate Wikipedia content, such as \emph{WikiTrust}\footnote{\url{http://wikitrust.soe.ucsc.edu/}.} and \emph{WikiWatch}\footnote{\url{http://wiki-watch.de}.}.
+        
+        It should also be noticed that \textquote{Wikipedia's topical coverage is driven by the interests of its users, and as a result, the reliability and completeness of Wikipedia is likely to be different depending on the area of the article} (\citeauthor{Halavais} in \cite{Halavais}).
+    \section{Coverage of topics}
+        The tremendous growth of Wikipedia has made it difficult to characterize the coverage of topics and the structure of content. Moreover, differences in the interests and attention of Wikipedia's editors mean that some areas are better covered than others: Wikipedia's topical coverage is not uniformly distributed. A number of studies have tried to answer the questions like \textquote{How broad is the coverage of Wikipedia?} and \textquote{What's the distribution of topics?}.
+        
+        In \citeyear{Kittur}, \citeauthor{Kittur} tried to infer Wikipedia topics distribution \cite{Kittur} (the results obtained are summarized in figure \ref{topics_distribution}). The practical difficulties that \citeauthor{Kittur} pointed out were:
+        \begin{itemize}
+            \item Each page in Wikipedia can be annotated with multiple categories, but any user can add or delete a category assignment (socially annotated category data).
+            \item The graph of categories and pages is a useful resource for understanding the coverage of topics, but it's very noisy and difficult to make sense of.
+        \end{itemize}
+        
+        \input{diagrams/topics_distribution.tex}
+        
+        \citeauthor{Halavais} in \cite{Halavais} examined the distribution of Wikipedia articles at the overall level and then within three particular fields.
+        \begin{itemize}
+            \item In the first experiment, the topical diversity of the English Wikipedia was pointed out, comparing it with the distribution of topics of some books. They turned out to be quite different. Some variations were attributed by \citeauthor{Halavais} to Wikipedia's technical attributes (for example, the number of historical articles has increased as a result of the automatic import of public data). The average length of an article has also been studied, mitigating somehow the observation that Wikipedia is lacking in some areas.
+            \item In the second experiment, the Wikipedia articles were mapped to some printed encyclopedias, and the coverage of the encyclopedias was mapped back to Wikipedia. It turned out that a high number of encyclopedia entries could not be matched with articles in Wikipedia. Also, differences in specificity were apparent: Wikipedia is able to break down complex topics into a arbitrary number of articles and it is unrestricted, while a printed encyclopedia is subject to constraints of paper.
+        \end{itemize}
+        
+        Despite these difficulties, the Wikimedia Foundation supervises thousands of \emph{WikiProjects}\footnote{A group of contributors who want to work together as a team to improve a specific area of Wikipedia.}: they often maintain a list of missing articles, as well as a list of articles that need to be reviewed by experts.
+    \section{Methods of access}
+        Wikipedia content is available in many forms outside of the main website because it can be freely used and distributed.
+        \subsection{DBpedia}
+            \emph{DBpedia}\footnote{\url{http://wiki.dbpedia.org/}.} is a multilingual project aiming \textquote{to extract structured information from Wikipedia and to make this information accessible on the Web} \cite{Bizer}. It makes it easier for the huge amount of Wikipedia content to be used in new interesting ways:
+            \begin{itemize}
+                \item DBpedia converts the information created in Wikipedia into a rich multi-domain knowledge base, mapping each infobox\footnote{A fixed-format table that summarizes some aspects that the articles share.} to an ontology.
+                \item DBpedia is served as linked data. Indeed, a knowledge graph is available for everyone on the Web and provides a means for information to be collected, organized, shared, searched and used. Moreover --- to enhance the quality of DBpedia entries --- the knowledge base is interlinked with various other sources on the Web.
+                \item One can query semantic relationships and properties of Wikipedia resources through the use of SQL-like query languages.
+            \end{itemize}
+            Being multilingual and covering a wide range of topics, the DBpedia knowledge base is very useful within many application domains. For example:
+            \begin{itemize}
+                \item Non-English Wikipedia editions may provide a better coverage of local culture and be sometimes more complete. By fusing infoboxes across language editions it is possible to derive a knowledge base whose quality is significantly increased.
+                \item Interlinking DBpedia with external sources makes it possible to augment Wikipedia articles with additional information.
+                \item The content of an infobox can be checked against the content of infoboxes within different languages, pointing out inconsistencies.
+                \item DBpedia linked data can be used in various NLP tasks, such as disambiguating entities (i.e., figuring out which object is meant by a word).
+            \end{itemize}
+        \subsection{Wikidata}
+            \emph{Wikidata}\footnote{\url{http://www.wikidata.org/}.} is a free, multilingual, collaborative project that acts as central storage for the structured data of Wikipedia, making it more easy to maintain infoboxes and links to other languages, thus improving the quality.
+            \begin{itemize}
+                \item It connects all the Wikipedia projects in different languages and provides common data for them. It can therefore serve as an organization system, and the underlying data structures constantly evolve \cite{NeubertOrganization}.
+                \item Its items also link to more than 1500 different sources of information \cite{NeubertLinking}.
+            \end{itemize}
+            
+            \input{diagrams/articles_using_wikidata.tex}
+            
+            As of May 2019, Wikidata information is used in 65.51\% of all Wikipedia articles. Figure \ref{articles_wikidata} shows information related to the top 10 biggest Wikipedia editions\footnote{\url{http://wdcm.wmflabs.org/WD_percentUsageDashboard/}.}.
+        \subsection{MediaWiki API}
+            Wikimedia Foundation makes the web activity records and the hyperlinks structure of Wikipedia publicly available through an API. Specifically, it allows to log into Wikipedia, access its data and post changes by making HTTP requests to the web service.
+            
+            Each Wikipedia edition has its own API endpoint. Here are some examples:
+            
+            \begin{center}
+                \begin{tabular}{|c|c|}
+                    \hline
+                    API endpoint & Wiki  \\
+                    \hline \hline
+                    \url{https://en.wikipedia.org/w/api.php} & English Wikipedia \\ \hline
+                    \url{https://it.wikipedia.org/w/api.php} & Italian Wikipedia \\ \hline
+                    \url{https://www.wikidata.org/w/api.php} & Wikidata \\ \hline
+                \end{tabular}
+            \end{center}
+        \subsection{Database download}
+            Accessing a large number of Wikipedia articles via web crawling is strongly discouraged by the Wikipedia policies on data download: it can dramatically slow down servers.
+            
+            Instead, Wikimedia Foundation releases Wikipedia \emph{data dumps} on a regular basis to make them available to interested users\footnote{\url{http://dumps.wikimedia.org/}.}. Data is provided as compressed XML files, containing both raw markup and pages metadata.
+            
+            It should be noticed, though, that the size of Wikipedia dumps is very large: it makes it really difficult to parse and extract relevant information. On the other hand, the API is straightforward to use and well documented but restricted to a relatively small number of requests. Some recent works tried to ease the access to this data and its further analysis:
+            \begin{itemize}
+                \item \citeauthor{Aspert} in \cite{Aspert} designed a graph database to store and access Wikipedia web network, including at the same time a mechanism for allowing experiments to be reproducible even when data evolves over time.
+                \item Jure Leskovec created some archives from Wikipedia dumps and published them on the Standard Network Analysis Platform (SNAP)\footnote{\url{http://snap.stanford.edu/data/index.html}.}. They are extensively used by the research community. 
+            \end{itemize}
+    \section{Research use}
+        Wikipedia is a rich and invaluable source of information. Its central place on the Web makes it a particularly interesting object of study for researchers from a wide range of disciplines. Researchers from different domains use various complex datasets related to Wikipedia in a large variety of contexts to examine the online encyclopedia from many different perspectives (for example, to study language, social behavior, knowledge organization, network theory etc.).
+        
+        Multiple studies have analyzed Wikipedia from a network science point of view and have used its structure to improve Wikipedia itself or to gain useful insights.
+        
+        It has also been widely used as a text corpus in computational linguistics, information retrieval and natural language processing. Here are some examples:
+        \begin{itemize}
+            \item Some word embedding techniques\footnote{Techniques that aim to map words or phrases to vectors of real numbers.} --- such as \emph{word2vec} \cite{Mikolov} --- depend largely on high-quality text, and Wikipedia provides a huge amount of content which is comparable across languages. Companies like Facebook trained these word vectors using Wikipedia as a text corpus \cite{Grave} (outperforming the current state of art by a large margin on many tasks) and published the results to make them available to the NLP researchers\footnote{\url{http://fasttext.cc/}.}.
+            \item Word-sense disambiguation\footnote{It is the task to determine the sense of an ambiguous word according to its context.} is one of the main problems of computational linguistics. A very famous paper by \citeauthor{Milne} has used Wikipedia articles to learn which sense of a word is used in a sentence: these results have been then used to disambiguate the correct destination of many Wikipedia links \cite{Milne}.
+        \end{itemize}
+    \section{Structure}
+        Wikipedia consists of two graphs: the article graph --- pages interconnected by hyperlinks --- and the category graph --- a semantic network.
+        \subsection{Articles}
+            Wikipedia is structured as an interconnected network of articles: each article can be connected to a number of other Wikipedia articles through hyperlinks \cite{Bellomi}. It's up to the editor to decide whether to link a term that occurs in an article with the corresponding Wikipedia page (provided that one exists).
+            
+            Every article is referenced via a unique URL, and redirects can be created when dealing with synonyms. For each article there is a talk page, where editors can discuss improvements.
+        \subsection{Categories}\label{wikipedia:categories}
+            Wikipedia also offers several ways to group articles. For example, it provides glossaries\footnote{Alphabetically arranged lists of a subject's terms, with definitions.}, hierarchical outlines\footnote{Hierarchically-structured lists that break a subject down into a taxonomy in which the levels are represented by list entry indentation or subheading levels.} and navigational templates\footnote{Groupings of links used in multiple related articles to facilitate navigation between those articles.}. Though there are many methods a user can use to navigate Wikipedia, one of the most important ones is given by the category system.
+            
+            In Wikipedia, each page can be linked to a number of categories, and categories can be linked among themselves. However, Wikimedia Foundation does not offer a direct guidance in the procedure of managing Wikipedia categories: they can be created by any user, and their mutual relations are not checked against an externally given skeleton. This spontaneous, self-organized and collaborative tagging carried out by Wikipedia users has created a folksonomy\footnote{A system of classification that makes use of terms that occur naturally in the language of users of the system.} --- i.e., a system in which categories are not necessarily organized in a strictly hierarchical structure, as opposed to a taxonomy\footnote{The process of naming and classifying things into groups within a larger system.} \cite{Salah}.
+            
+            Some authors --- for example \citeauthor{Voss} in \cite{Voss} --- have likened Wikipedia more to a thesaurus than a classification scheme. Others --- such as \citeauthor{Suchecki} in \cite{Suchecki} --- think that the Wikipedia category graph is different than classical knowledge organization systems in that it has no specified root or hierarchy. The category system has been improved over time: still, some important and well cited research works point out that Wikipedia's category network \textquote{is noisy, ill-formed, and difficult to make sense of} \cite{Kittur}.
+            
+            Though the category graph is not strictly hierarchical --- thanks to its collaborative nature, which has led to various direct and indirect cycles in the network --- it still have a vague order and it is possible to distinguish a hierarchy. However, all of these problems has lead to many difficulties in doing traditional reasoning or inference over the Wikipedia category graph.
+        \subsection{Database}\label{wikipedia_database}
+            The operation of Wikipedia depends on MediaWiki, a free and open source platform developed in PHP: it is used to display data stored in a relational database (such as MySQL).
+            
+            The database schema of Wikipedia is quite complicated, but describing in detail some of the most important tables is useful to understand the content of following chapters. It should be noticed, though, that only a subset of the fields is described --- i.e., only the relevant ones.
+            
+            More detailed information can be found at \url{http://www.mediawiki.org/wiki/Manual:Database_layout}.
+            \subsubsection{Page}
+                The page table contains an entry for every Wikipedia page.
+                
+                \begin{center}
+                    \begin{tabularx}{\textwidth}{|l|X|}
+                        \hline
+                        Field & Description  \\
+                        \hline \hline
+                        \monospace{page\_id} & Primary key that uniquely identifies a Wikipedia page. \\ \hline
+                        \monospace{page\_namespace} & Number (0--15) that represents a page's namespace (e.g., 0 for articles, 14 for categories). \\ \hline
+                        \monospace{page\_title} & Page's title (with a maximum of 255 characters), with spaces replaced by underscores. It uniquely identify an entry in a namespace. \\ \hline
+                        \monospace{page\_is\_redirect} & A value of 1 indicates the page is a redirect, 0 otherwise. \\ \hline
+                    \end{tabularx}
+                \end{center}
+            \subsubsection{Pagelinks}
+                The pagelinks table tracks all the Wikipedia internal links.
+                
+                \begin{center}
+                    \begin{tabularx}{\textwidth}{|l|X|}
+                        \hline
+                        Field & Description  \\
+                        \hline \hline
+                        \monospace{pl\_from} & Page ID of the page containing the link. \\ \hline
+                        \monospace{pl\_from\_namespace} & Page namespace of the page containing the link. \\ \hline
+                        \monospace{pl\_namespace} & Page namespace of the target page. \\ \hline
+                        \monospace{pl\_title} & Page title of the target page, with spaces converted to underscores. \\ \hline
+                    \end{tabularx}
+                \end{center}
+            \subsubsection{Redirect}
+                The redirect table stores all the pages that are a redirect\footnote{Recent versions of MediaWiki have incomplete data in this table: information related to recent redirect pages is stored in the pagelinks table.}.
+            
+                \begin{center}
+                    \begin{tabularx}{\textwidth}{|l|X|}
+                        \hline
+                        Field & Description  \\
+                        \hline \hline
+                        \monospace{rd\_from} & Page ID of the source page. \\ \hline
+                        \monospace{rd\_namespace} & Number of the target's namespace. \\ \hline
+                        \monospace{rd\_title} & Target page's title, with spaces replaced by underscores. \\ \hline
+                    \end{tabularx}
+                \end{center}
+            \subsubsection{Categorylinks}
+                The categorylinks table stores all the links that place pages into a category.
+            
+                \begin{center}
+                    \begin{tabularx}{\textwidth}{|l|X|}
+                        \hline
+                        Field & Description  \\
+                        \hline \hline
+                        \monospace{cl\_from} & Page ID of the article where the link was placed. \\ \hline
+                        \monospace{cl\_to} & Name of the category, with spaces replaced by underscores. \\ \hline
+                        \monospace{cl\_type} & Type of page (file, subcat, or page). \\ \hline
+                    \end{tabularx}
+                \end{center}
+            \subsubsection{Langlinks}\label{langlinks}
+                The langlinks table stores all the interlanguage links.
+            
+                \begin{center}
+                    \begin{tabularx}{\textwidth}{|l|X|}
+                        \hline
+                        Field & Description  \\
+                        \hline \hline
+                        \monospace{ll\_from} & Page ID of the referring page. \\ \hline
+                        \monospace{ll\_lang} & Language code of the target Wikipedia. \\ \hline
+                        \monospace{ll\_title} & Full title of the target page (page's namespace followed by the page's title). \\ \hline
+                    \end{tabularx}
+                \end{center}

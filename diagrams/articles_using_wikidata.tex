@@ -1,0 +1,23 @@
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            xbar,
+            xmin=0, xmax=100,
+            xlabel={Percentage of articles using Wikidata},
+            symbolic y coords={English,Cebuano,Swedish,German,French,Dutch,Russian,Italian,Spanish,Polish},
+            ytick=data,
+            xticklabel = {
+                \pgfmathparse{\tick}
+                \pgfmathprintnumber{\pgfmathresult}\,\%
+            }
+        ]
+            \addplot table [
+                x=percentage,
+                y=lang
+            ]{data/articles_using_wikidata.dat};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Percentage of articles that use Wikidata in the top 10 biggest Wikipedia editions.}
+    \label{articles_wikidata}
+\end{figure}

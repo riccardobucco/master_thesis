@@ -1,0 +1,144 @@
+\chapter{Artificial neural networks}\label{ann_chapter}
+    Artificial neural networks (ANN) are a large class of models and learning methods that are in part inspired by biological neural networks and have widespread applications in many different fields.
+    
+    \section{Components of an artificial neural network}
+        Basically, an artificial neural network consists of a large number of basic computing units (artificial neurons) that are connected to each other. Typically, artificial neurons are aggregated into layers. Each unit takes a number of inputs (possibly the outputs of other units) and produces a single value. This complex network of artificial neurons, where each connection can transmit a signal from a unit to another, allows to perform complex computations \cite[82]{Mitchell}.
+        
+        Formally, a single neuron is a mathematical function which transforms one or more real-value inputs in a single real-value output. It has two components:
+        \begin{description}
+            \item[Propagation function] It is a function which receives data input of other neurons and returns a single real-value output. A very popular propagation function is the weighted sum of the multiplication of the input of each neuron by the weight associated with the connection between the two units. Formally:
+            \[net_j = \sum_{i=1}^{P}\left(o_i \cdot w_{i,j}\right)\]
+            where \(o_1, o_2, \dots, o_P\) are the data input of other neurons, \(w_{i,j}\) the weights associated with the connections between the input neurons and the current one, and \(net_j\) the single output of the propagation function (also called network input).
+            \item[Activation function] It is responsible for deciding whether a neuron should be activated or not --- i.e., whether the information that the neuron is receiving is relevant or should be ignored. Formally, it takes as input the network input \(net_j\) and the returned value will be the output of the neuron:
+            \[o_j = \sigma\left(net_j\right)\]
+            The simplest activation function is binary --- i.e., either the information is relevant or not. However, for most practical problems, activation functions should be bounded, monotonic and smooth (continuously differentiable). A very popular example is the logistic function: \(\sigma\left(net_j\right) = \frac{1}{1+e^{-net_j}}\).
+        \end{description}
+        See figure \ref{neuron_data_processing} for a visual representation of the data processing of a unit of an artificial neural network.
+        
+        \input{diagrams/neuron_data_processing.tex}
+    
+        To sum up, neural networks are sets of neurons organized in layers. They perform tasks by extracting linear combinations of the input features and modelling the target as a nonlinear function of these derived features \cite[389]{Hastie}.
+    \section{Feed-forward neural networks}
+        Feed-forward neural networks consist of neurons organized in layers (one input layer, one output layer, and a number of hidden layers), where each neuron in one layer is directly connected to all the neurons of the next layer. In other words, the output of every layer --- i.e., the set containing the output of each neuron of the layer --- serves as input for the next layer.
+        
+        Here is the basic notation used to formally describe how a feed-forward neural network works \cite[269--270]{Shalev-Shwartz}:
+        \begin{itemize}
+            \item \(X_1,X_2,\dots,X_N\) are the \(N\) features representing the input vector \(X\). The \(M\) components of the output vector \(\hat{Y}\) are \(\hat{Y}_1,\hat{Y}_2,\dots,\hat{Y}_M\).
+            \item \(L\) is the number of layers (the input layer is not taken into account). \(P^t\) is the number of nodes belonging to the \(t\)-th layer (\(P^0=N\) and \(P^L=M\)).
+            \item \(v_{i}^{t}\) denotes the \(i\)-th neuron of the \(t\)-th layer.
+            \item \(w_{i,j}^{t}\) denotes the weight associated with the connection between the \(i\)-th neuron of layer \(t-1\) and the \(j\)-th neuron of layer \(t\) --- i.e., the connection between \(v_{i}^{t-1}\) and \(v_{j}^{t}\). \(b_{j}^{t}\) denotes the bias term associated with the \(v_{j}^{t}\).
+            \item \(net_{i}^{t}\) and \(o_{i}^{t}\) are, respectively, the network input and the output of the neuron \(v_{i}^{t}\).
+            \item \(\sigma^{t}\) denotes the activation function used in each neuron belonging to the \(t\)-th layer of the feed-forward neural network.
+        \end{itemize}
+        
+        Suppose that the outputs at layer \(t-1\) have already been computed (with \(P^{0} = N\) and \(o_{1}^{0}=X_1, o_{2}^{0}=X_2,\dots, o_{N}^{0}=X_N\)). Then, the outputs at layer \(t\) can be calculated as follows:
+        \[net_{j}^{t} = \sum_{i=1}^{P^{t-1}}w_{i,j}^{t} \cdot o_{i}^{t-1} + b_{j}^{t}\]
+        \[o_{j}^{t} = \sigma^{t}\left(net_{j}^{t}\right)\]
+        The propagation function is a linear combination of the inputs --- i.e., it is a weighted sum of the outputs of the neurons belonging to the previous layer --- and the activation function is a nonlinear function of this derived feature.
+        
+        \input{diagrams/feedforward_nn.tex}
+        
+        A simple feed-forward neural network is represented in figure \ref{feedforward_nn}. The units in the middle layer are called hidden units because their output values are not directly observable. In general, there can be an arbitrary number of hidden layers and their outputs can be thought of as nonlinear transformations of the original inputs \(X_i\) \cite[393]{Hastie}.
+        
+    \section{Network training}
+        The behavior of a neural network depends on the weights associated with each connection between neurons. These supervised algorithms learn how to perform various tasks by fitting the training data and adjusting weights associated to connections. In other words, given an input and the related output produced by the network, the algorithm takes the ideal output and adjusts the weights in order to produce a more accurate output the next time. In general, neural networks need a learning strategy --- i.e., an algorithm that:
+        \begin{itemize}
+            \item Uses training data to change the weights.
+            \item Makes the model produce the desired output for a given input, thus allowing accurate predictions.
+        \end{itemize}
+        
+        In order to training a neural network, one must choose the loss function and an optimizer, as described in section \ref{components_ml}. Moreover, it is also fundamental to choose the activation functions used in each layer.
+        
+        \subsection{Good practices for choosing activation and loss functions}
+            In order to get good results with neural networks, many researchers have developed some best practices over the years (for example, see \cite{Simard}). Some of them have focused on the choice of activation and loss functions according to the type of problem being solved \cite[232--236]{Bishop}:
+            \begin{itemize}
+                \item For regression problems, it is common to have a single output neuron. The activation functions used in such neuron should be linear. Moreover, a good loss function is the sum-of-squares error
+                \[L\left(x_1, x_2, \dots, x_n\right) = \frac{1}{n} \cdot \sum_{i=1}^{n}\left(\hat{y}_i - y_i\right)^{2}\]
+                \item For binary classification problems, it is common to have a single output neuron, representing the probability associated with the positive class. Good outputs may be obtained using standard logistic sigmoid as activation function, and cross-entropy as loss function.
+                \[\hat{Y}_j = \sigma^L\left(net_j^L\right) = \frac{1}{1+e^{-net_j^L}}\]
+                \[L\left(x_1, x_2, \dots, x_n\right) = -\frac{1}{n} \cdot \sum_{i=1}^{n}\left[y_i \cdot ln\left(\hat{y}_i\right) + \left(1-y_i\right)\cdot ln\left(1-\hat{y}_i\right)\right]\]
+                \item For multi-class classification --- where each input is assigned to one of \(K\) mutually exclusive classes --- it is common to have as many neurons in the last layer as the number of classes. Outputs of these neurons are often interpreted as a probability distribution over classes. Softmax outputs are usually a good choice and they are used together with the corresponding multi-class cross-entropy loss function.
+                \[\hat{Y}_j = \sigma_j^L\left(net_1^L, net_2^L, \dots, net_K^L\right) = \frac{e^{net_j^L}}{\sum_{k=1}^{K}e^{net_k^L}}\]
+                \[L\left(x_1, x_2, \dots, x_n\right) = -\frac{1}{n} \cdot  \sum_{i=1}^{n}\sum_{k=1}^{K}y_{ik} \cdot ln\left(\hat{y}_{ik}\right)\]
+            \end{itemize}
+        \subsection{Weights optimization using gradient information}
+            Once the network is built and the error function chosen, one must define an algorithm that minimizes the loss function with respect to the weights.
+            
+            Since the error function \(L\) is a smooth continuous function, its global minimum --- and, in general, all the local minima --- is a stationary point and thus occurs at a point in which the gradient vanishes --- i.e. \(\nabla L\left(w\right) = 0\). The goal of the optimization algorithm is to find the vector \(w\) of weights which minimizes the loss function \(L\) --- i.e., the difference between the actual output of the network and the desired output.
+            
+            Being the loss function highly complex, a solution cannot be found in an analytic way. Instead, the optimization algorithm must use numerical methods. Many techniques used in literature involve starting with some carefully chosen weights and then moving step-by-step through the weight space
+            \[w^{\left(r+1\right)} = w^{\left(r\right)} + \Delta w^{\left(r\right)}\]
+            until the values converge. Specifically, one must choose both the direction and the size of the step.
+            
+            As of the direction, the most popular choice is to take steps proportional to the negative of the gradient \cite[240]{Bishop}: the idea is to move in the direction along which the loss function decreases the fastest. With regard to the step size --- or learning rate --- it cannot be too high or too low: if it is too high then the algorithm may miss minima or even diverge, if it is too low then the algorithm may take too long to converge or get stuck in non-optimal local minima.
+            
+            Unfortunately, minimizing the loss function is not an easy task. In fact, the loss function is highly nonlinear and nonconvex \cite[400]{Hastie}\cite[237]{Bishop}: it possesses many local minima, local maxima and saddle points. Therefore, many variants of the basic gradient descent algorithm have been studied for years. For example, the learning rate may be fixed or change over iterations. Also, the gradient might be stochastic --- i.e., computed approximately using only some random samples --- or it could be improved using momentum, which prevents excessive oscillations.
+        \subsection{Back-propagation}
+            Not only the loss function is highly nonconvex, but it is also unknown: the training dataset comprises only few examples. How can the gradient of such function be computed or approximated? Back-propagation is a computationally efficient technique for evaluating derivatives of the error function with respect to the weights (which are then used to adjust the weights of the network, thus obtaining outputs which are closer to the ideal ones), and it can be used with a wide variety of loss and activation functions. This method --- whose importance was not fully appreciated until a famous \citeyear{Rumelhart} paper by \citeauthor{Rumelhart} (see \cite{Rumelhart}) --- is called back-propagation because errors are propagated backward through the network.
+            
+            Formally, back-propagation aims at computing the partial derivatives \(\frac{\partial L}{\partial w}\) and \(\frac{\partial L}{\partial b}\) of the loss function \(L\) with respect to any weight \(w\) or bias \(b\) in the network. Computing partial derivatives is about understanding how changing the weights and biases in a network changes the value of the error function --- i.e., the difference between the actual and desired outputs.
+            
+            Back-propagation is merely a highly efficient application of the chain rule used in calculus\footnote{A formula for finding the derivative of a function with respect to any variable in the nested equation.} \cite[205]{Goodfellow}:
+            \[\left(f \circ g\right)^{\prime}\left(x\right) = f^{\prime}\left(g\left(x\right)\right) \cdot g^{\prime}\left(x\right)\]
+            
+            Using such formula, one can easily derive the partial derivatives of the loss function with respect to weights and biases (there might be some issues if activation functions are discontinuous or not-differentiable). For example, given that
+            \[net_{j}^{t} = \sum_{i=1}^{P^{t-1}}w_{i,j}^{t} \cdot o_{i}^{t-1} + b_{j}^{t}\]
+            \[L\left(x_1, x_2, \dots, x_n\right) = \frac{1}{2n}\sum_{i=1}^{n}\left(\hat{y}_i - y_{i}\right)^{2}\]
+            then
+            \[\frac{\partial L}{\partial w_{i,j}^{t}} = \delta_{j}^{t} \cdot \frac{\partial net_{j}^{t}}{\partial w_{i,j}^{t}} = \delta_{j}^{t} \cdot o_{i}^{t-1}\]
+            where the calculation of the term \(\delta_{j}^{t}\) is dependent on the values of the terms \(\delta_{1}^{t+1}, \delta_{2}^{t+1}, \dots, \delta_{P^{t+1}}^{t+1}\) related to the next layer\footnote{This is the origin of the name back-propagation: computation of the error term proceeds backwards.}:
+            \[\delta_{j}^{t} = \frac{\partial \sigma_j^t}{\partial net_j^t}\sum_{i=1}^{P^{t+1}}w_{j,i}^{t+1}\delta_{i}^{t+1}\]
+        \subsection{Issues in training neural networks}
+            Most good practices in machine learning are guided by background knowledge and experimentation. Here are some important issues that one may face while dealing with training neural networks \cite[397--401]{Hastie}:
+            \begin{itemize}
+                \item When building a neural network, one must define the number of hidden units and layers (the number of input and output neurons is fixed by the problem statement). One should always keep in mind that on one hand adding layers improves the ability of the network to represent difficult functions, but on the other hand it generates additional local minima in which the optimization algorithm can get stuck. As of the number of neurons per layer, it corresponds to the number of free parameters of the model: according to the Ockham's razor, the goal is to have as few nodes as possible but as many as necessary.
+                \item In order to search the weight space, optimization algorithms usually need values to start from: since the loss function is highly complex --- i.e., it has many local minima --- it is important to carefully choose the starting values, so that the optimization algorithm is likely to explore interesting regions of the space. A very simple but effective strategy is to initialize weights with small random values \cite[302]{Goodfellow}.
+                \item Setting a good learning rate and the right optimization algorithm has significant impact on model performance \cite[306--310]{Goodfellow}. There exist a large number of optimization algorithms, and each of them adapts the learning rate in a different way: unfortunately, there is no single best algorithm \cite{Schaul}.
+            \end{itemize}
+    \section{Convolutional neural networks}
+        Convolutional neural networks --- or CNNs --- are a category of artificial neural network for processing data that has a spatial structure --- i.e., a grid-like topology \cite[330]{Goodfellow}\cite{LeCunDeepLearning}. Typical examples of data used with a convolutional neural network are images, volumetric data (a common source of this kind of data is a CT scan\footnote{A technique that allows the user to see inside an object by combining many X-ray measurements taken from different angles.}) or discretized audio waves.
+        
+        Convolutional neural networks can also be used when the size of inputs is not fixed. However, this makes sense only when there can be a different number of observations related to the same kind of thing (for example, an image can have variable height and width); it does not make sense when inputs contain different kind of features \cite[362]{Goodfellow}.
+        
+        Though at that time convolutional neural networks were already known, they became successful in \citeyear{LeCun}, when \citeauthor{LeCun} integrated them with the back-propagation end-to-end supervised learning algorithm \cite{LeCun}.
+        \subsection{Convolution}
+            Convolution is a mathematical operation which takes two functions as input, and combine them to form a single output function. Formally, it is defined as\footnote{\url{http://mathworld.wolfram.com/Convolution.html}.}:
+            \[\left[f \star g\right]\left(x\right) = \int_{-\infty}^{+\infty}f\left(y\right)g\left(x-y\right)dy\]
+            The first function is usually referred as input and the second one as kernel. The convolution can also be defined when \(f\) and \(g\) can take only integer values:
+            \[\left[f \star g\right]\left(x\right) = \sum_{y=-\infty}^{+\infty}f\left(y\right)g\left(x-y\right)\]
+            
+            When convolution is applied to machine learning, the input is a multidimensional array of data and the kernel a multidimensional array of parameters tuned by the learning algorithm \cite[332]{Goodfellow} (the kernel is usually much smaller than the input). However, an important assumption must hold: these functions are zero everywhere but the finite set of points in the arrays. In this way, the infinite summation can be implemented as a summation over a finite set.
+            
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{images/convolution.pdf}
+                \caption{An RGB image that has been separated in three colors channels --- red, green and blue --- is given as an example. The convolution operation is performed between a portion of the image --- i.e., the receptive field --- and the filter --- i.e., the kernel --- which has the same depth as that of the input image. The filter traverses the entire image left-to-right and top-to-bottom. The results are summed to return a single output feature.}
+                \label{convolution}
+            \end{figure}
+            
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.5\textwidth]{images/pooling.pdf}
+                \caption{An example of what max pooling does. Given a \(4 \times 4\) matrix representing the input features, for each of the colored region the max pooling function takes the maximum element and create a new \(2 \times 2\) output matrix.}
+                \label{pooling}
+            \end{figure}
+            
+            There are three important ideas that motivate the use of convolution operation in artificial neural networks:
+            \begin{enumerate}
+                \item In fully connected neural networks every output depends on all inputs. Instead, a convolutional layer have sparse connectivity. Specifically, it allows to extract local features that depend only on small areas --- or receptive fields --- of the input \cite[267]{Bishop}: by adjusting the kernel size one can find correlations between spatially contiguous features. Sparse connectivity means that there are less parameters to store and tune. By stacking many convolutional layers one can find features of higher and higher order, allowing the convolutional neural network to capture structure in inputs at multiple different scales\footnote{This is exactly how brains work: neurons of visual cortexes respond to small regions of the visual field.}.
+                \item In general, each neuron of an artificial neural network applies a function to its receptive field. In convolutional neural networks, such function --- i.e., the kernel --- is shared by many neurons \cite[335]{Goodfellow}. In other words, the value of the weight related to one input depends also on the value of a weight applied elsewhere.
+                \item Convolutional neural networks are invariant with respect to translation. This means that if the inputs translates then the activations of each convolutional layer will translate the same way. This property is useful if one \textquote{cares more about whether some feature is present than exactly where it is} \cite[342]{Goodfellow}.
+            \end{enumerate}
+
+            The convolution operation in the context of neural networks usually refers to an operation that consists of many parallel applications of convolution: while a single filter can extract only one kind of feature at many spatial locations, one usually want a convolutional layer to extract many kind of features at many locations. As a consequence, the input is usually not just an array of real values. Rather, it is a multi-dimensional array of observations.
+        \subsection{Pooling}
+            A pooling function is often applied to the results of a convolution layer: it further modifies the output by replacing a certain value with a summary statistic of the nearby values \cite[339]{Goodfellow}.
+            
+            Although the role of a convolutional layer is to find how local inputs from the previous layer are correlated, the role of the pooling layer is to merge features which are semantically similar \cite{LeCunDeepLearning}. Typical pooling layers compute the maximum or the average output within a hyper-rectangular neighborhood.
+            
+            In general, pooling often enhances performance of convolutional neural networks \cite{Boureau} and has many interesting properties:
+            \begin{itemize}
+                \item It reduces the dimension of the representation, making it more compact. Hence, it can be extremely useful when dealing with inputs of different sizes, since the final layer must receive always the same number of outputs.
+                \item If pooling is applied to the outputs of different convolutions, invariance to transformations of the input can be autonomously created.
+                \item It can be used to make the convolutional neural network more robust to noise and clutter.
+            \end{itemize}

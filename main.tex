@@ -1,0 +1,34 @@
+\documentclass[10pt, a4paper, twoside, titlepage, openright]{book}
+
+\input{config/packages.tex}
+\addbibresource{references/bibliography.bib}
+
+\begin{document}
+    \frontmatter
+    \input{frontmatter/cover.tex}
+    \input{frontmatter/abstract.tex}
+    \tableofcontents
+    
+    \mainmatter
+    \input{mainmatter/introduction.tex}
+    \part{Background}\label{background}
+    \input{mainmatter/wikipedia.tex}
+    \input{mainmatter/negapedia.tex}
+    \input{mainmatter/ML.tex}
+    \input{mainmatter/ANN.tex}
+    \input{mainmatter/ML_graphs.tex}
+    \part{Methods and products}\label{methods_products}
+    % \input{mainmatter/classification_wikipedia.tex}
+    \input{mainmatter/multilingual_graph.tex}
+    \input{mainmatter/learning_framework.tex}
+    \input{mainmatter/labelling_platform.tex}
+    \part{Analysis and experimental results}\label{analysis_experimental_results}
+    \input{mainmatter/analysis_collected_data.tex}
+    \input{mainmatter/experiments.tex}
+    \bookmarksetup{startatroot}
+    \addtocontents{toc}{\bigskip}
+    \input{mainmatter/conclusion.tex}
+    
+    \backmatter
+    \printbibliography
+\end{document}
